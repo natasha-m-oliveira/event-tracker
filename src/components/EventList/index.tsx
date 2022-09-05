@@ -4,19 +4,14 @@ import Event from '../Event';
 import Filter from '../Filter';
 import style from './EventList.module.scss';
 
-const EventList: React.FC<{
-  aoFiltroAplicado: (data: Date | null) => void;
-}> = ({ aoFiltroAplicado }) => {
+const EventList: React.FC = () => {
   const events = useEventList();
   return (
     <section>
-      <Filter aoFiltroAplicado={aoFiltroAplicado} />
+      <Filter />
       <div className={style.scroll}>
         {events.map((event) => (
-          <Event
-            event={event}
-            key={event.id}
-          />
+          <Event event={event} key={event.id} />
         ))}
       </div>
     </section>

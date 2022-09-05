@@ -1,78 +1,31 @@
-import { useState } from 'react';
 import style from './App.module.scss';
 import Card from './components/Card';
 import Form from './components/Form';
-import { IEvent } from './interfaces/IEvent';
 import Calendar from './components/Calendar';
 import EventList from './components/EventList';
 import { RecoilRoot } from 'recoil';
+import { Suspense } from 'react';
 
 function App() {
-  // const [eventos, setEventos] = useState<IEvento[]>([
-  //   {
-  //     descricao: 'Estudar React',
-  //     inicio: new Date('2022-01-15T09:00'),
-  //     fim: new Date('2022-01-15T13:00'),
-  //     completo: false,
-  //     id: 1642342747,
-  //   },
-  //   {
-  //     descricao: 'Estudar Recoil',
-  //     inicio: new Date('2022-01-16T09:00'),
-  //     fim: new Date('2022-01-16T11:00'),
-  //     completo: false,
-  //     id: 1642342959,
-  //   },
-  // ]);
-
-  const [filtro, setFiltro] = useState<Date | null>();
-
-  const adicionarEvento = (evento: IEvent) => {
-    evento.id = Math.round(new Date().getTime() / 1000);
-    // eventos.push(evento);
-    // setEventos([...eventos]);
-  };
-  // const alterarStatusEvento = (id: number) => {
-    // const evento = eventos.find((evento) => evento.id === id);
-    // if (evento) {
-    //   evento.completo = !evento.completo;
-    // }
-    // setEventos([...eventos]);
-  // };
-  // const deletarEvento = (id: number) => {
-    // setEventos([...eventos.filter((evento) => evento.id !== id)]);
-  // };
-
-  const aplicarFiltro = (data: Date | null) => {
-    setFiltro(data);
-  };
-
-  const filtrados = !filtro;
-  // ? eventos
-  // : eventos.filter(
-  //     (evento) =>
-  //       filtro!.toISOString().slice(0, 10) ===
-  //       evento.inicio.toISOString().slice(0, 10)
-  //   );
-
   return (
     <RecoilRoot>
-      <div className={style.App}>
-        <div className={style.column}>
-          <Card>
-            <Form />
-          </Card>
-          <hr />
-          <Card>
-            <EventList
-              aoFiltroAplicado={aplicarFiltro}
-            />
-          </Card>
+      {/* Como os dados estão sendo carregados de forma assíncrona é necessário envolver os componentes que utilizaram essa resposta pelo suspense */}
+      <Suspense fallback='Carregando...'>
+        <div className={style.App}>
+          <div className={style.column}>
+            <Card>
+              <Form />
+            </Card>
+            <hr />
+            <Card>
+              <EventList />
+            </Card>
+          </div>
+          <div className={style.column}>
+            <Calendar />
+          </div>
         </div>
-        <div className={style.column}>
-          <Calendar />
-        </div>
-      </div>
+      </Suspense>
     </RecoilRoot>
   );
 }

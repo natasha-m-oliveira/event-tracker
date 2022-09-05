@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { IEventFilter } from '../../interfaces/IEventFilter';
+import { eventFilterState } from '../../state/atom';
 import style from './Filter.module.scss';
 
-const Filter: React.FC<{ aoFiltroAplicado: (data: Date | null) => void }> = ({
-  aoFiltroAplicado,
-}) => {
-  const [data, setData] = useState('');
+const Filter: React.FC = () => {
+  const [date, setDate] = useState('');
+  const setEventFilter = useSetRecoilState<IEventFilter>(eventFilterState)
 
   const submeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
     evento.preventDefault();
-    if (!data) {
-      aoFiltroAplicado(null);
-      return;
+    const filter: IEventFilter = {};
+    if (date) {
+      filter.date = new Date(date)
+    } else {
+      filter.date = null;
     }
-    aoFiltroAplicado(new Date(data));
+    setEventFilter(filter);
   };
 
   return (
@@ -22,9 +26,9 @@ const Filter: React.FC<{ aoFiltroAplicado: (data: Date | null) => void }> = ({
         type='date'
         name='date'
         className={style.input}
-        onChange={(e) => setData(e.target.value)}
+        onChange={(e) => setDate(e.target.value)}
         placeholder='Por data'
-        value={data}
+        value={date}
       />
 
       <button className={style.button}>Filtrar</button>
