@@ -8,9 +8,11 @@
 
   .description {
     text-decoration: none;
+    font-size: clamp(14px, 1rem, 1.5vw);
   }
-
+  
   i {
+    font-size: clamp(16px, 1.4rem, 1.8vw);
     cursor: pointer;
   }
 

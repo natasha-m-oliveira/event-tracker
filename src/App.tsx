@@ -4,7 +4,7 @@ import Card from './components/Card';
 import Form from './components/Form';
 import { IEvent } from './interfaces/IEvent';
 import Calendar from './components/Calendar';
-import ListaDeEventos from './components/EventList';
+import EventList from './components/EventList';
 import { RecoilRoot } from 'recoil';
 
 function App() {
@@ -58,18 +58,18 @@ function App() {
   return (
     <RecoilRoot>
       <div className={style.App}>
-        <div className={style.Coluna}>
+        <div className={style.column}>
           <Card>
             <Form />
           </Card>
           <hr />
           <Card>
-            <ListaDeEventos
+            <EventList
               aoFiltroAplicado={aplicarFiltro}
             />
           </Card>
         </div>
-        <div className={style.Coluna}>
+        <div className={style.column}>
           <Calendar />
         </div>
       </div>

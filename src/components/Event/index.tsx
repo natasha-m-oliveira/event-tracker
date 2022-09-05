@@ -2,24 +2,17 @@ import React from 'react';
 import { IEvent } from '../../interfaces/IEvent';
 import style from './Event.module.scss';
 import CheckboxEvent from './CheckboxEvent';
-import { useSetRecoilState } from 'recoil';
-import { eventListState } from '../../state/atom';
-
+import useRemoveEvent from '../../state/hooks/useRemoveEvent';
 
 const Event: React.FC<{
   event: IEvent;
-}> = ({ event}) => {
+}> = ({ event }) => {
   const styles = [style.event];
-  const setEventList = useSetRecoilState<IEvent[]>(eventListState);
-  const deleteEvent = () => {
-    setEventList((oldList) => oldList.filter((oldEvent) => oldEvent.id !== event.id));
-  }
+  const removeEvent = useRemoveEvent();
 
   if (event.complete) {
     styles.push(style.complete);
   }
-
-
   return (
     <div className={styles.join(' ')}>
       <CheckboxEvent event={event} />
@@ -30,7 +23,7 @@ const Event: React.FC<{
       </div>
       <i
         className='far fa-times-circle fa-2x'
-        onClick={deleteEvent}
+        onClick={() => removeEvent(event)}
       ></i>
     </div>
   );

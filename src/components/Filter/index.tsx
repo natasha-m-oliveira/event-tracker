@@ -20,7 +20,7 @@ const Filter: React.FC<{ aoFiltroAplicado: (data: Date | null) => void }> = ({
       <h3 className={style.title}>Filtrar por data</h3>
       <input
         type='date'
-        name='data'
+        name='date'
         className={style.input}
         onChange={(e) => setData(e.target.value)}
         placeholder='Por data'

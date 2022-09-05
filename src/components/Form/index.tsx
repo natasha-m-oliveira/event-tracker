@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { IEvent } from '../../interfaces/IEvent';
-import { eventListState } from '../../state/atom';
-import { generateId } from '../../util';
+import useAddEvent from '../../state/hooks/useAddEvent';
 import style from './Form.module.scss';
 
 const Form: React.FC = () => {
-  const setEventList = useSetRecoilState<IEvent[]>(eventListState);
-
+  const addEvent = useAddEvent();
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [horaInicio, setHoraInicio] = useState('');
@@ -21,19 +17,22 @@ const Form: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const event = {
-      id: generateId(),
-      description: description,
-      start: formatDate(startDate, horaInicio),
-      end: formatDate(endDate, endTime),
-      complete: false,
-    };
-    setEventList((oldList) => [...oldList, event]);
-    setDescription('');
-    setStartDate('');
-    setHoraInicio('');
-    setEndDate('');
-    setEndTime('');
+    try {
+      const event = {
+        description: description,
+        start: formatDate(startDate, horaInicio),
+        end: formatDate(endDate, endTime),
+        complete: false,
+      };
+      addEvent(event);
+      setDescription('');
+      setStartDate('');
+      setHoraInicio('');
+      setEndDate('');
+      setEndTime('');
+    } catch (error) {
+      alert(error);
+    }
   };
   return (
     <form className={style.form} onSubmit={handleSubmit}>
@@ -42,8 +41,8 @@ const Form: React.FC = () => {
       <label>Descrição</label>
       <input
         type='text'
-        name='descricao'
-        id='descricao'
+        name='description'
+        id='description'
         className={style.input}
         onChange={(e) => setDescription(e.target.value)}
         placeholder='Descrição'

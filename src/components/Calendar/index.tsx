@@ -3,9 +3,8 @@ import style from './Calendar.module.scss';
 import ptBR from './localization/ptBR.json';
 import Kalend, { CalendarEvent, CalendarView, OnEventDragFinish } from 'kalend';
 import 'kalend/dist/styles/index.css';
-import { useRecoilValue } from 'recoil';
-import { eventListState } from '../../state/atom';
 import useUpdateEvent from '../../state/hooks/useUpdateEvent';
+import useEventList from '../../state/hooks/useEventList';
 
 interface IKalendEvento {
   id?: number;
@@ -16,7 +15,7 @@ interface IKalendEvento {
 }
 
 const Calendar: React.FC = () => {
-  const events = useRecoilValue(eventListState);
+  const events = useEventList();
   const eventosKalend = new Map<string, IKalendEvento[]>();
   const updatedEvent = useUpdateEvent();
 
