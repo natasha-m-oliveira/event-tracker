@@ -5,12 +5,14 @@ import Calendar from './components/Calendar';
 import EventList from './components/EventList';
 import { RecoilRoot } from 'recoil';
 import { Suspense } from 'react';
+import DebugObserver from './components/DebugObserver';
 
 function App() {
   return (
     <RecoilRoot>
+      <DebugObserver />
       {/* Como os dados estão sendo carregados de forma assíncrona é necessário envolver os componentes que utilizaram essa resposta pelo suspense */}
-      <Suspense fallback='Carregando...'>
+      <Suspense fallback="Carregando...">
         <div className={style.App}>
           <div className={style.column}>
             <Card>
